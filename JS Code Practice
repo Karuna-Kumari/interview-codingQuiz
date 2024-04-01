@@ -1,0 +1,98 @@
+Question 1. Write a function accepting the above array as an argument,
+and return the below object as output.as
+const arr = [
+  {"id":7,"name":"Kuwait","parentId":2},
+  {"id":4,"name":"Iraq","parentId":2},
+  {"id":10,"name":"Qatar","parentId":2},
+  {"id":2,"name":"Middle East","parentId":1},
+  {"id":3,"name":"Bahrain","parentId":2},
+  {"id":6,"name":"Jordan","parentId":2},
+  {"id":8,"name":"Lebanon","parentId":2},
+  {"id":1,"name":"Africa/Middle East","parentId":null},
+  {"id":5,"name":"Israel","parentId":2},
+  {"id":9,"name":"Oman","parentId":2}
+];
+
+const output = [
+  {
+    "id":1,
+   "text":"Africa/Middle East",
+   "children":[
+      {
+       "id":2,
+       "text":"Middle East",
+       "children":[
+         {
+           "id":7,
+           "name":"Kuwait",
+           "children":[]
+         },
+         {
+           "id":4,
+           "name":"Iraq",
+           "children":[]
+         },
+         {
+           "id":10,
+           "name":"Qatar",
+           "children":[]
+         },
+         {
+           "id":3,
+           "name":"Bahrain",
+           "children":[]
+         },
+         {
+           "id":6,
+           "name":"Jordan",
+           "children":[]
+         },
+          {
+           "id":8,
+           "name":"Lebanon",
+           "children":[]
+         },
+          {
+           "id":5,
+           "name":"Israel",
+           "children":[]
+         },
+          {
+           "id":9,
+           "name":"Oman",
+           "children":[]
+         }
+       ]
+     }
+    ]
+  }
+];
+
+Ans: const arr = [
+   {"id":7,"name":"Kuwait","parentId":2},
+    {"id":4,"name":"Iraq","parentId":2},
+    {"id":10,"name":"Qatar","parentId":2},
+   {"id":2,"name":"Middle East","parentId":1},
+    {"id":3,"name":"Bahrain","parentId":2},
+    {"id":6,"name":"Jordan","parentId":2},
+   {"id":8,"name":"Lebanon","parentId":2},
+    {"id":1,"name":"Africa/Middle East","parentId":null},    
+    {"id":5,"name":"Israel","parentId":2},
+    {"id":9,"name":"Oman","parentId":2} ];
+const treeStructure = (data, root = null) => {
+   const res = [];
+   const map = {};
+   data.forEach((elem) => {
+      elem.children = map[elem.id] && map[elem.id].children || [];
+      map[elem.id] = elem; if (elem.parentId === root) {
+          res.push(elem);
+      }
+      else {
+         map[elem.parentId] = map[elem.parentId] || {};
+         map[elem.parentId].children = map[elem.parentId].children || [];     
+         map[elem.parentId].children.push(elem);
+      };
+   });
+   return res;
+};
+console.log(JSON.stringify(treeStructure(arr), undefined, 4));
